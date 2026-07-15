@@ -1,5 +1,5 @@
-import { useRef, useEffect, useCallback, MutableRefObject } from "react";
-import { Group } from "three";
+import { useRef, useEffect, useCallback } from "react";
+import { Group, Mesh } from "three";
 import { useGLTF } from "@react-three/drei";
 import { useThree, useFrame } from "@react-three/fiber";
 import { a } from "@react-spring/three";
@@ -7,62 +7,92 @@ import { a } from "@react-spring/three";
 import islandScene from "../assets/3d/island.glb";
 import { IslandPropsTypes } from "../types";
 
-function Island({ isRotating, setIsRotating, setCurrentStage, ...props }: IslandPropsTypes) {
-  const islandRef: MutableRefObject<Group> = useRef(null!);
+function Island({
+  isRotating,
+  setIsRotating,
+  setCurrentStage,
+  ...props
+}: IslandPropsTypes) {
+  const islandRef = useRef<Group>(null!);
+
   const { nodes, materials } = useGLTF(islandScene);
   const { gl, viewport } = useThree();
   const lastX = useRef(0);
   const rotationSpeed = useRef(0);
   const dampingFactor = 0.95;
 
-  const handlePointerDown = useCallback((event: any) => {
-    event.stopPropagation();
-    event.preventDefault();
-    setIsRotating(true);
-
-    // To check whether it's a touch event on mouse or mobile
-    const clientX = event.touches ? event.touches[0].clientX : event.clientX;
-    lastX.current = clientX;
-  }, [setIsRotating]);
-
-  const handlePointerUp = useCallback((event: any) => {
-    event.stopPropagation();
-    event.preventDefault();
-    setIsRotating(false);
-  }, [setIsRotating]);
-
-  const handlePointerMove = useCallback((event: any) => {
-    event.stopPropagation();
-    event.preventDefault();
-
-    if (isRotating) {
+  const handlePointerDown = useCallback(
+    (event: TouchEvent | PointerEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
+      setIsRotating(true);
+      let clientX: number = 0;
       // To check whether it's a touch event on mouse or mobile
-      const clientX = event.touches ? event.touches[0].clientX : event.clientX;
-      const delta = (clientX - lastX.current) / viewport.width;
-
-      islandRef.current.rotation.y += delta * 0.01 * Math.PI;
+      if (event instanceof TouchEvent) {
+        clientX = event.touches[0].clientX;
+      } else if (event instanceof PointerEvent) {
+        clientX = event.clientX;
+      }
       lastX.current = clientX;
-      rotationSpeed.current = delta * 0.05 * Math.PI;
-    }
-  }, [isRotating, viewport]);
+    },
+    [setIsRotating]
+  );
 
-  const handleKeyDown = useCallback((event: any) => {
-    if (event.key === "ArrowLeft") {
-      if (!isRotating) setIsRotating(true);
-      islandRef.current.rotation.y += 0.01 * Math.PI;
-      rotationSpeed.current = 0.0125;
-    } else if (event.key === "ArrowRight") {
-      if (!isRotating) setIsRotating(true);
-      islandRef.current.rotation.y -= 0.01 * Math.PI;
-      rotationSpeed.current = 0.0125;
-    }
-  }, [isRotating, setIsRotating]);
-
-  const handleKeyUp = useCallback((event: any) => {
-    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+  const handlePointerUp = useCallback(
+    (event: PointerEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
       setIsRotating(false);
-    }
-  }, [setIsRotating]);
+    },
+    [setIsRotating]
+  );
+
+  const handlePointerMove = useCallback(
+    (event: TouchEvent | PointerEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
+
+      let clientX: number = 0;
+      if (isRotating) {
+        // To check whether it's a touch event on mouse or mobile
+        if (event instanceof TouchEvent) {
+          clientX = event.touches[0].clientX;
+        } else if (event instanceof PointerEvent) {
+          clientX = event.clientX;
+        }
+        const delta = (clientX - lastX.current) / viewport.width;
+
+        islandRef.current.rotation.y += delta * 0.01 * Math.PI;
+        lastX.current = clientX;
+        rotationSpeed.current = delta * 0.05 * Math.PI;
+      }
+    },
+    [isRotating, viewport]
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft") {
+        if (!isRotating) setIsRotating(true);
+        islandRef.current.rotation.y += 0.01 * Math.PI;
+        rotationSpeed.current = 0.0125;
+      } else if (event.key === "ArrowRight") {
+        if (!isRotating) setIsRotating(true);
+        islandRef.current.rotation.y -= 0.01 * Math.PI;
+        rotationSpeed.current = 0.0125;
+      }
+    },
+    [isRotating, setIsRotating]
+  );
+
+  const handleKeyUp = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        setIsRotating(false);
+      }
+    },
+    [setIsRotating]
+  );
 
   useEffect(() => {
     const canvas = gl.domElement;
@@ -141,34 +171,48 @@ function Island({ isRotating, setIsRotating, setCurrentStage, ...props }: Island
 
   return (
     <a.group {...props} ref={islandRef}>
-      <mesh
-        geometry={nodes.polySurface944_tree_body_0.geometry}
-        material={materials.PaletteMaterial001}
-      />
-      <mesh
-        geometry={nodes.polySurface945_tree1_0.geometry}
-        material={materials.PaletteMaterial001}
-      />
-      <mesh
-        geometry={nodes.polySurface946_tree2_0.geometry}
-        material={materials.PaletteMaterial001}
-      />
-      <mesh
-        geometry={nodes.polySurface947_tree1_0.geometry}
-        material={materials.PaletteMaterial001}
-      />
-      <mesh
-        geometry={nodes.polySurface948_tree_body_0.geometry}
-        material={materials.PaletteMaterial001}
-      />
-      <mesh
-        geometry={nodes.polySurface949_tree_body_0.geometry}
-        material={materials.PaletteMaterial001}
-      />
-      <mesh
-        geometry={nodes.pCube11_rocks1_0.geometry}
-        material={materials.PaletteMaterial001}
-      />
+      {nodes.polySurface944_tree_body_0 instanceof Mesh && (
+        <mesh
+          geometry={nodes.polySurface944_tree_body_0.geometry}
+          material={materials.PaletteMaterial001}
+        />
+      )}
+      {nodes.polySurface945_tree1_0 instanceof Mesh && (
+        <mesh
+          geometry={nodes.polySurface945_tree1_0.geometry}
+          material={materials.PaletteMaterial001}
+        />
+      )}
+      {nodes.polySurface946_tree2_0 instanceof Mesh && (
+        <mesh
+          geometry={nodes.polySurface946_tree2_0.geometry}
+          material={materials.PaletteMaterial001}
+        />
+      )}
+      {nodes.polySurface947_tree1_0 instanceof Mesh && (
+        <mesh
+          geometry={nodes.polySurface947_tree1_0.geometry}
+          material={materials.PaletteMaterial001}
+        />
+      )}
+      {nodes.polySurface948_tree_body_0 instanceof Mesh && (
+        <mesh
+          geometry={nodes.polySurface948_tree_body_0.geometry}
+          material={materials.PaletteMaterial001}
+        />
+      )}
+      {nodes.polySurface949_tree_body_0 instanceof Mesh && (
+        <mesh
+          geometry={nodes.polySurface949_tree_body_0.geometry}
+          material={materials.PaletteMaterial001}
+        />
+      )}
+      {nodes.pCube11_rocks1_0 instanceof Mesh && (
+        <mesh
+          geometry={nodes.pCube11_rocks1_0.geometry}
+          material={materials.PaletteMaterial001}
+        />
+      )}
     </a.group>
   );
 }
