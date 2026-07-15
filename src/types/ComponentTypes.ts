@@ -11,6 +11,11 @@ export type InfoboxType = {
 
 export type InfoPropsTypes = {
   currentStage: number;
+  name: string;
+  tagline: string;
+  infoStage2: string;
+  infoStage3: string;
+  infoStage4: string;
 }
 
 export type Vector3Tuple = [x: number, y: number, z: number];

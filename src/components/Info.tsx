@@ -13,37 +13,27 @@ const InfoBox = ({ text, link, btnText }: InfoboxType) => (
   </div>
 );
 
-const renderContent = {
-  1: (
-    <h1 className="sm:text-xl sm:leading-snug text-center neo-brutalism-blue py-4 px-8 text-white mx-5">
-      Hi, I am <span className="font-semibold">Ritesh</span>👋
-      <br />A Software Engineer from India
-    </h1>
-  ),
-  2: (
-    <InfoBox
-      text="Worked with many companies and picked up many skills along the way"
-      link="/about"
-      btnText="Learn more"
-    />
-  ),
-  3: (
-    <InfoBox
-      text="Led multiple projects to success over the years. Curious about the impact?"
-      link="/projects"
-      btnText="Visit my portfolio"
-    />
-  ),
-  4: (
-    <InfoBox
-      text="Need a project done or looking for a dev? I'm just a few keystokes away"
-      link="/contacts"
-      btnText="Let's talk"
-    />
-  ),
-};
+function Info({
+  currentStage,
+  name,
+  tagline,
+  infoStage2,
+  infoStage3,
+  infoStage4,
+}: InfoPropsTypes) {
+  const renderContent = {
+    1: (
+      <h1 className="sm:text-xl sm:leading-snug text-center neo-brutalism-blue py-4 px-8 text-white mx-5">
+        Hi, I am <span className="font-semibold">{name}</span>👋
+        <br />
+        {tagline}
+      </h1>
+    ),
+    2: <InfoBox text={infoStage2} link="/about" btnText="Learn more" />,
+    3: <InfoBox text={infoStage3} link="/projects" btnText="Visit my portfolio" />,
+    4: <InfoBox text={infoStage4} link="/contacts" btnText="Let's talk" />,
+  };
 
-function Info({ currentStage }: InfoPropsTypes) {
   return renderContent[currentStage as keyof typeof renderContent];
 }
 
