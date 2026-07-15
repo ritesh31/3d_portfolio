@@ -3,16 +3,17 @@ import { Canvas } from "@react-three/fiber";
 
 import { Loader, Info } from "../components";
 import { Island, Sky, Bird, Plane,  } from "../models";
+import { Vector3Tuple } from "../types";
 
 function Home() {
   const [isRotating, setIsRotating] = useState(false);
-  const [currentStage, setCurrentStage] = useState(1);
+  const [currentStage, setCurrentStage] = useState<number | null>(1);
 
   // Adjusting island depends on screens
   const adjustIslandForScreenSize = () => {
     let screenScale = null;
     const screenPosition = [0, -6.5, -43];
-    const rotation = [0.1, 4.7, 0];
+    const rotation: [x: number, y: number, z: number] = [0.1, 4.7, 0];
     if (window.innerWidth > 768) {
       screenScale = [0.9, 0.9, 0.9];
     } else {
@@ -64,17 +65,17 @@ function Home() {
           <Bird />
           <Sky isRotating={isRotating} />
           <Island
-            scale={islandScale}
-            position={islandPosition}
-            rotation={islandRotation}
+            scale={islandScale as Vector3Tuple}
+            position={islandPosition as Vector3Tuple}
+            rotation={islandRotation as Vector3Tuple}
             isRotating={isRotating}
             setIsRotating={setIsRotating}
             setCurrentStage={setCurrentStage}
           />
           <Plane
-            scale={planeScale}
-            position={planePosition}
-            rotation={planeRotation}
+            scale={planeScale as Vector3Tuple}
+            position={planePosition as Vector3Tuple}
+            rotation={planeRotation as Vector3Tuple}
             isRotating={isRotating}
           />
         </Suspense>
