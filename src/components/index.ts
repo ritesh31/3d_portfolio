@@ -11,6 +11,7 @@ import {
   SkillsSkeleton,
   ExperienceSkeleton,
   ProjectsSkeleton,
+  BlogSkeleton,
 } from "./Skeleton";
 
 export {
@@ -26,4 +27,5 @@ export {
   SkillsSkeleton,
   ExperienceSkeleton,
   ProjectsSkeleton,
+  BlogSkeleton,
 };

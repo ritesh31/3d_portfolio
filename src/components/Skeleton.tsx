@@ -60,3 +60,18 @@ export function ProjectsSkeleton() {
     </div>
   );
 }
+
+export function BlogSkeleton() {
+  return (
+    <div className="flex flex-wrap my-20 gap-16">
+      {Array.from({ length: 2 }).map((_, index) => (
+        <div className="lg:w-[400px] w-full flex flex-col gap-4" key={index}>
+          <Bar className="w-full h-40 rounded-xl" />
+          <Bar className="h-6 w-1/2" />
+          <Bar className="h-3 w-full" />
+          <Bar className="h-3 w-5/6" />
+        </div>
+      ))}
+    </div>
+  );
+}

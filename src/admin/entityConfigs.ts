@@ -58,4 +58,15 @@ export const entityConfigs: Record<string, EntityConfig> = {
       { key: "link", label: "Link (URL)", type: "text" },
     ],
   },
+  blog_posts: {
+    table: "blog_posts",
+    label: "Blog",
+    titleField: "title",
+    hasIcon: true,
+    fields: [
+      { key: "title", label: "Title", type: "text" },
+      { key: "excerpt", label: "Excerpt", type: "textarea" },
+      { key: "link", label: "Link (URL)", type: "text" },
+    ],
+  },
 };

@@ -4,6 +4,7 @@ import { Canvas } from "@react-three/fiber";
 import { Fox } from "../models";
 import { Loader, Alert } from "../components";
 import useAlert from "../hooks/useAlert";
+import { supabase } from "../lib/supabase";
 
 
 function Contacts() {
@@ -20,21 +21,30 @@ function Contacts() {
 
   const handleOnBlur = () => setCurrentAnimation("idle");
 
-  const handleOnSubmit = (event: SyntheticEvent<HTMLFormElement>) => {
+  const handleOnSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log(form);
     setIsLoading(true);
     setCurrentAnimation("hit");
-    const timeout = setTimeout(() => {
-      setIsLoading(false);
-      setCurrentAnimation("idle");
-      showAlert({ text: "Message sent successfully!", type: "success" });
-      clearTimeout(timeout);
-    }, 3000);
 
-    const timeout2 = setTimeout(() => {
+    const minDelay = new Promise((resolve) => setTimeout(resolve, 1000));
+    const [, { error }] = await Promise.all([
+      minDelay,
+      supabase.from("contact_messages").insert(form),
+    ]);
+
+    setIsLoading(false);
+    setCurrentAnimation("idle");
+
+    if (error) {
+      showAlert({ text: error.message, type: "danger" });
+    } else {
+      setForm({ name: "", email: "", message: "" });
+      showAlert({ text: "Message sent successfully!", type: "success" });
+    }
+
+    const timeout = setTimeout(() => {
       hideAlert();
-      clearTimeout(timeout2);
+      clearTimeout(timeout);
     }, 7000);
   };
 
