@@ -3,6 +3,7 @@ import { supabase } from "../lib/supabase";
 import { entityConfigs } from "./entityConfigs";
 import EntityAdmin from "./EntityAdmin";
 import ProfileAdmin from "./ProfileAdmin";
+import ContactMessagesAdmin from "./ContactMessagesAdmin";
 
 function AdminLayout() {
   const [activeKey, setActiveKey] = useState("profile");
@@ -38,10 +39,19 @@ function AdminLayout() {
             {config.label}
           </button>
         ))}
+        <button
+          type="button"
+          className={`btn ${activeKey === "messages" ? "" : "bg-slate-400"}`}
+          onClick={() => setActiveKey("messages")}
+        >
+          Messages
+        </button>
       </div>
 
       {activeKey === "profile" ? (
         <ProfileAdmin />
+      ) : activeKey === "messages" ? (
+        <ContactMessagesAdmin />
       ) : (
         <EntityAdmin config={entityConfigs[activeKey]} />
       )}

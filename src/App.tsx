@@ -2,7 +2,7 @@ import { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 
 import { Navbar, Footer, ErrorBoundary } from "./components";
-import { Home, About, Projects, Contacts } from "./pages";
+import { Home, About, Projects, Contacts, Blog } from "./pages";
 
 const AdminLogin = lazy(() => import("./admin/AdminLogin"));
 const AdminLayout = lazy(() => import("./admin/AdminLayout"));
@@ -19,6 +19,7 @@ function AppRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/projects" element={<Projects />} />
+        <Route path="/blog" element={<Blog />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route
           path="/admin/login"

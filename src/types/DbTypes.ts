@@ -49,3 +49,21 @@ export type ProjectRow = {
   sort_order: number;
   created_at: string;
 };
+
+export type BlogPostRow = {
+  id: string;
+  title: string;
+  excerpt: string;
+  icon_url: string | null;
+  link: string;
+  sort_order: number;
+  created_at: string;
+};
+
+export type ContactMessageRow = {
+  id: string;
+  name: string;
+  email: string;
+  message: string;
+  created_at: string;
+};

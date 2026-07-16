@@ -7,7 +7,8 @@ function Navbar() {
         to="/"
         className="w-10 h-10 bg-white rounded-lg items-center justify-center flex font-bold shadow-md"
       >
-        <p className="blue-gradient_text">RD</p>
+        {/* <p className="blue-gradient_text">RD</p> */}
+        <img alt="RD" src="/rd-logo.svg"/>
       </NavLink>
 
       <nav className="flex text-lg gap-7 font-medium">
@@ -28,6 +29,12 @@ function Navbar() {
           className={({isActive}) => (isActive ? "text-blue-500" : "text-black")}
         >
           Projects
+        </NavLink>
+        <NavLink
+          to="/blog"
+          className={({isActive}) => (isActive ? "text-blue-500" : "text-black")}
+        >
+          Blog
         </NavLink>
         <NavLink
           to="/contacts"
