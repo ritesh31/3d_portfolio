@@ -1,5 +1,5 @@
 export type AlertPropsType = {
-  type: string;
+  type?: string;
   text: string;
 }
 
