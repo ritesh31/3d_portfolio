@@ -37,12 +37,39 @@ function About() {
         <ProfileHeaderSkeleton />
       ) : (
         <>
-          <h1 className="head-text">
-            Hello, I'm{" "}
-            <span className="blue-gradient_text font-semibold drop-shadow">
-              {profile.name}
-            </span>
-          </h1>
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <h1 className="head-text">
+              Hello, I'm{" "}
+              <span className="blue-gradient_text font-semibold drop-shadow">
+                {profile.name}
+              </span>
+            </h1>
+            {profile.resume_url && (
+              <a
+                href={profile.resume_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                download
+                className="btn w-fit shrink-0 flex items-center gap-2 shadow-lg shadow-blue-500/20 transition-transform hover:-translate-y-0.5 hover:shadow-xl hover:shadow-blue-500/30"
+              >
+                <svg
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M12 3v12" />
+                  <path d="m7 10 5 5 5-5" />
+                  <path d="M5 21h14" />
+                </svg>
+                Resume
+              </a>
+            )}
+          </div>
           <div className="mt-5 flex flex-col gap-3 text-slate-500">
             <p>{profile.bio}</p>
           </div>
