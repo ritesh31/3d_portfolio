@@ -36,6 +36,7 @@ export type ProfileRow = {
   info_stage_2: string;
   info_stage_3: string;
   info_stage_4: string;
+  resume_url: string | null;
   updated_at: string;
 };
 

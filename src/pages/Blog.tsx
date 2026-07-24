@@ -25,9 +25,12 @@ function Blog() {
       {loading ? (
         <BlogSkeleton />
       ) : (
-        <div className="flex flex-wrap my-20 gap-16">
+        <div className="flex flex-wrap items-stretch my-20 gap-16">
           {posts.map((post) => (
-            <div className="lg:w-[400px] w-full" key={post.id}>
+            <div
+              className="lg:w-[400px] w-full flex flex-col"
+              key={post.id}
+            >
               {post.icon_url && (
                 <img
                   src={post.icon_url}
@@ -36,12 +39,12 @@ function Blog() {
                 />
               )}
 
-              <div className="mt-5 flex flex-col">
+              <div className="mt-5 flex flex-col flex-1">
                 <h4 className="text-2xl font-poppins font-semibold">
                   {post.title}
                 </h4>
                 <p className="mt-2 text-slate-500">{post.excerpt}</p>
-                <div className="mt-5 flex items-center gap-2 font-poppins">
+                <div className="pt-5 mt-auto flex items-center gap-2 font-poppins">
                   <a
                     href={post.link}
                     target="_blank"

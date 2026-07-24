@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+
+Sitemap: https://ritesh31.github.io/3d_portfolio/sitemap.xml
